@@ -113,7 +113,7 @@ function BuilderContent() {
                 <BrainCircuit className="text-white w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-lg font-headline font-bold text-primary">Decision Workspace</h1>
+                <h1 className="text-lg font-headline font-bold text-primary">AHP Studio</h1>
                 <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Analytic Hierarchy Process</p>
               </div>
             </div>
@@ -241,7 +241,7 @@ function BuilderContent() {
 
 export default function BuilderPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Workspace...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading AHP Studio...</div>}>
       <BuilderContent />
     </Suspense>
   );
