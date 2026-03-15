@@ -150,12 +150,14 @@ export default function Home() {
 
       <footer className="bg-secondary/50 py-12 border-t">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <BrainCircuit className="text-primary w-5 h-5" />
-            <span className="font-headline font-bold text-primary">AHP Studio</span>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <BrainCircuit className="text-white w-6 h-6" />
+            </div>
+            <span className="font-headline font-bold text-primary text-lg">AHP Studio</span>
           </div>
-          <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} AHP Studio.
+          <div className="text-sm text-muted-foreground text-center md:text-right">
+            Developed by <span className="font-bold text-primary">Darko Etinger</span> with <span className="font-bold text-accent">Firebase Studio</span>
           </div>
         </div>
       </footer>
