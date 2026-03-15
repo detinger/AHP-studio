@@ -1,0 +1,17 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "ahp-hierarchy",
+      "description": "Visual diagram of an AHP hierarchy showing goal, criteria, and alternatives",
+      "imageUrl": "https://picsum.photos/seed/ahp1/800/600",
+      "imageHint": "decision hierarchy"
+    },
+    {
+      "id": "ahp-comparison",
+      "description": "Abstract representation of pairwise comparison between two nodes",
+      "imageUrl": "https://picsum.photos/seed/ahp2/800/600",
+      "imageHint": "comparison balance"
+    }
+  ]
+}
