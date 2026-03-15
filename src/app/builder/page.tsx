@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HierarchyInputs } from '@/components/ahp/HierarchyInputs';
 import { PairwiseMatrix } from '@/components/ahp/PairwiseMatrix';
 import { ResultsCharts } from '@/components/ahp/ResultsCharts';
+import { HierarchyDiagram } from '@/components/ahp/HierarchyDiagram';
 import { calculateAHPWeights, synthesizeResults } from '@/lib/ahp-engine';
 import { AHP_TEMPLATES } from '@/lib/templates';
 import { ArrowLeft, ChevronRight, Settings2, BarChart2, BrainCircuit } from 'lucide-react';
@@ -50,17 +51,14 @@ function BuilderContent() {
   const loadTemplate = (id: string) => {
     const template = AHP_TEMPLATES.find(t => t.id === id);
     if (template) {
-      // Set structure first
       setCriteria(template.criteria);
       setAlternatives(template.alternatives);
-      
-      // Immediately set the loaded matrices
       setCriteriaMatrix(template.criteriaMatrix);
       setAlternativesMatrices(template.alternativesMatrices);
 
       toast({
         title: "Template Loaded",
-        description: `Loaded ${template.name} with pre-calculated decisions.`,
+        description: `Loaded ${template.name} with consistent priority data.`,
       });
     }
   };
@@ -114,7 +112,7 @@ function BuilderContent() {
               </div>
               <div>
                 <h1 className="text-lg font-headline font-bold text-primary">AHP Studio</h1>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Analytic Hierarchy Process</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Decision Support</p>
               </div>
             </div>
           </div>
@@ -124,7 +122,7 @@ function BuilderContent() {
               onChange={(e) => loadTemplate(e.target.value)}
               value={templateId || ""}
             >
-              <option value="" disabled>Load Example Template...</option>
+              <option value="" disabled>Select Example Template...</option>
               {AHP_TEMPLATES.map(t => (
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
@@ -182,33 +180,33 @@ function BuilderContent() {
             </div>
           </TabsContent>
 
-          <TabsContent value="results" className="animate-in fade-in duration-500 outline-none">
+          <TabsContent value="results" className="animate-in fade-in duration-500 outline-none space-y-8">
             <div className="grid lg:grid-cols-2 gap-8">
               <ResultsCharts 
-                title="Final Recommendation" 
+                title="Final Ranked Results" 
                 labels={alternatives} 
                 weights={finalScores} 
               />
               <div className="space-y-6">
                 <ResultsCharts 
-                  title="Criteria Priorities" 
+                  title="Criteria Contribution" 
                   labels={criteria} 
                   weights={criteriaResult.weights}
                   cr={criteriaResult.consistencyRatio}
                 />
                 
                 <div className="bg-white p-6 rounded-xl border shadow-sm">
-                  <h3 className="font-headline font-bold text-lg mb-4 text-primary">Analysis Summary</h3>
+                  <h3 className="font-headline font-bold text-lg mb-4 text-primary">Synthesis Summary</h3>
                   <div className="space-y-4 text-sm">
                     <div className="flex justify-between items-center p-3 bg-secondary/10 rounded-lg">
-                      <span className="text-muted-foreground">Dominant Criterion</span>
-                      <span className="font-bold text-primary">
+                      <span className="text-muted-foreground">Highest Weighted Factor</span>
+                      <span className="font-bold text-primary uppercase text-xs">
                         {criteria.length > 0 ? criteria[criteriaResult.weights.indexOf(Math.max(...criteriaResult.weights))] : 'N/A'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-accent/5 rounded-lg border border-accent/10">
-                      <span className="text-muted-foreground">Best Alternative</span>
-                      <span className="font-bold text-accent">
+                      <span className="text-muted-foreground">Optimal Alternative</span>
+                      <span className="font-bold text-accent uppercase text-xs">
                         {alternatives.length > 0 ? alternatives[finalScores.indexOf(Math.max(...finalScores))] : 'N/A'}
                       </span>
                     </div>
@@ -216,6 +214,14 @@ function BuilderContent() {
                 </div>
               </div>
             </div>
+
+            {/* Hierarchy Diagram Component */}
+            <HierarchyDiagram 
+              criteria={criteria}
+              criteriaWeights={criteriaResult.weights}
+              alternatives={alternatives}
+              finalScores={finalScores}
+            />
           </TabsContent>
         </Tabs>
       </main>
@@ -241,7 +247,7 @@ function BuilderContent() {
 
 export default function BuilderPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading AHP Studio...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Initializing AHP Studio...</div>}>
       <BuilderContent />
     </Suspense>
   );
