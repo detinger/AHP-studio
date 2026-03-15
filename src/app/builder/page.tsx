@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, Suspense } from 'react';
@@ -10,7 +11,7 @@ import { PairwiseMatrix } from '@/components/ahp/PairwiseMatrix';
 import { ResultsCharts } from '@/components/ahp/ResultsCharts';
 import { calculateAHPWeights, synthesizeResults } from '@/lib/ahp-engine';
 import { AHP_TEMPLATES } from '@/lib/templates';
-import { ArrowLeft, ChevronRight, Settings2, BarChart2 } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Settings2, BarChart2, BrainCircuit } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 function BuilderContent() {
@@ -18,44 +19,52 @@ function BuilderContent() {
   const searchParams = useSearchParams();
   const templateId = searchParams.get('template');
   
-  const [criteria, setCriteria] = useState<string[]>(['Cost', 'Quality', 'Performance']);
+  const [criteria, setCriteria] = useState<string[]>(['Security', 'Performance', 'Cost']);
   const [alternatives, setAlternatives] = useState<string[]>(['Option A', 'Option B']);
   
-  // Matrix for criteria
   const [criteriaMatrix, setCriteriaMatrix] = useState<number[][]>([]);
-  // Matrices for alternatives (one per criterion)
   const [alternativesMatrices, setAlternativesMatrices] = useState<number[][][]>([]);
 
-  // Initialize matrices when criteria/alternatives change
+  // Initialize empty matrices only if they don't match dimensions
   useEffect(() => {
-    // Initial criteria matrix
-    const newCriteriaMatrix = Array(criteria.length).fill(0).map((_, i) => 
-      Array(criteria.length).fill(0).map((_, j) => (i === j ? 1 : 1))
-    );
-    setCriteriaMatrix(newCriteriaMatrix);
+    const nC = criteria.length;
+    const nA = alternatives.length;
 
-    // Initial alternatives matrices
-    const newAltMatrices = criteria.map(() => 
-      Array(alternatives.length).fill(0).map((_, i) => 
-        Array(alternatives.length).fill(0).map((_, j) => (i === j ? 1 : 1))
-      )
-    );
-    setAlternativesMatrices(newAltMatrices);
+    if (criteriaMatrix.length !== nC) {
+      const newCriteriaMatrix = Array(nC).fill(0).map((_, i) => 
+        Array(nC).fill(0).map((_, j) => (i === j ? 1 : 1))
+      );
+      setCriteriaMatrix(newCriteriaMatrix);
+    }
+
+    if (alternativesMatrices.length !== nC || (alternativesMatrices[0]?.length !== nA)) {
+      const newAltMatrices = Array(nC).fill(0).map(() => 
+        Array(nA).fill(0).map((_, i) => 
+          Array(nA).fill(0).map((_, j) => (i === j ? 1 : 1))
+        )
+      );
+      setAlternativesMatrices(newAltMatrices);
+    }
   }, [criteria.length, alternatives.length]);
 
   const loadTemplate = (id: string) => {
     const template = AHP_TEMPLATES.find(t => t.id === id);
     if (template) {
+      // Set structure first
       setCriteria(template.criteria);
       setAlternatives(template.alternatives);
+      
+      // Immediately set the loaded matrices
+      setCriteriaMatrix(template.criteriaMatrix);
+      setAlternativesMatrices(template.alternativesMatrices);
+
       toast({
         title: "Template Loaded",
-        description: `Loaded ${template.name} configuration.`,
+        description: `Loaded ${template.name} with pre-calculated decisions.`,
       });
     }
   };
 
-  // Handle template from URL on mount
   useEffect(() => {
     if (templateId) {
       loadTemplate(templateId);
@@ -72,17 +81,24 @@ function BuilderContent() {
   const updateAlternativeMatrix = (criterionIdx: number, row: number, col: number, val: number) => {
     const nextAll = [...alternativesMatrices.map(m => m.map(r => [...r]))];
     const nextM = nextAll[criterionIdx];
-    nextM[row][col] = val;
-    nextM[col][row] = 1 / val;
-    setAlternativesMatrices(nextAll);
+    if (nextM) {
+      nextM[row][col] = val;
+      nextM[col][row] = 1 / val;
+      setAlternativesMatrices(nextAll);
+    }
   };
 
   // Calculations
   const criteriaResult = calculateAHPWeights(criteriaMatrix);
   const altsResults = alternativesMatrices.map(m => calculateAHPWeights(m));
-  const finalScores = criteriaResult.weights.length > 0 && altsResults.length > 0
+  
+  const hasValidResults = criteriaResult.weights.length === criteria.length && 
+                          altsResults.length === criteria.length &&
+                          altsResults.every(r => r.weights.length === alternatives.length);
+
+  const finalScores = hasValidResults
     ? synthesizeResults(criteriaResult.weights, altsResults.map(r => r.weights))
-    : [];
+    : Array(alternatives.length).fill(0);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -92,18 +108,23 @@ function BuilderContent() {
             <Button variant="ghost" size="icon" asChild>
               <Link href="/"><ArrowLeft className="w-5 h-5" /></Link>
             </Button>
-            <div>
-              <h1 className="text-xl font-headline font-bold text-primary">Decision Workspace</h1>
-              <p className="text-xs text-muted-foreground">Analytic Hierarchy Process Studio</p>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+                <BrainCircuit className="text-white w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-lg font-headline font-bold text-primary">Decision Workspace</h1>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Analytic Hierarchy Process</p>
+              </div>
             </div>
           </div>
           <div className="flex gap-2">
             <select 
-              className="text-sm border rounded-md px-2 py-1 bg-white outline-none focus:ring-2 focus:ring-accent"
+              className="text-sm border rounded-md px-3 py-1.5 bg-white outline-none focus:ring-2 focus:ring-accent cursor-pointer hover:bg-secondary/10 transition-colors"
               onChange={(e) => loadTemplate(e.target.value)}
-              defaultValue={templateId || ""}
+              value={templateId || ""}
             >
-              <option value="" disabled>Load a Template...</option>
+              <option value="" disabled>Load Example Template...</option>
               {AHP_TEMPLATES.map(t => (
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
@@ -113,9 +134,9 @@ function BuilderContent() {
       </header>
 
       <main className="container mx-auto px-4 py-8 flex-1">
-        <Tabs defaultValue="structure" className="space-y-8">
+        <Tabs defaultValue="results" className="space-y-8">
           <div className="flex justify-center">
-            <TabsList className="grid grid-cols-3 w-full max-w-md bg-white border shadow-sm">
+            <TabsList className="grid grid-cols-3 w-full max-w-md bg-white border shadow-sm p-1">
               <TabsTrigger value="structure" className="data-[state=active]:bg-primary data-[state=active]:text-white">
                 <Settings2 className="w-4 h-4 mr-2" /> Structure
               </TabsTrigger>
@@ -128,7 +149,7 @@ function BuilderContent() {
             </TabsList>
           </div>
 
-          <TabsContent value="structure" className="animate-in fade-in duration-500">
+          <TabsContent value="structure" className="animate-in fade-in duration-500 outline-none">
             <HierarchyInputs 
               criteria={criteria} 
               alternatives={alternatives} 
@@ -136,7 +157,7 @@ function BuilderContent() {
             />
           </TabsContent>
 
-          <TabsContent value="compare" className="animate-in fade-in duration-500">
+          <TabsContent value="compare" className="animate-in fade-in duration-500 outline-none">
             <div className="grid lg:grid-cols-2 gap-8">
               <PairwiseMatrix 
                 title="Criteria Comparison" 
@@ -145,12 +166,12 @@ function BuilderContent() {
                 onChange={updateCriteriaMatrix} 
               />
               <div className="space-y-8">
-                <h2 className="text-2xl font-headline font-bold text-primary px-4">Alternatives Comparison</h2>
-                <div className="max-h-[600px] overflow-y-auto pr-2 space-y-8 custom-scrollbar">
+                <h2 className="text-2xl font-headline font-bold text-primary px-4">Relative Performance</h2>
+                <div className="max-h-[700px] overflow-y-auto pr-2 space-y-8 custom-scrollbar">
                   {criteria.map((criterion, idx) => (
                     <PairwiseMatrix 
                       key={idx}
-                      title={`Relative Performance: ${criterion}`}
+                      title={`${criterion} Evaluation`}
                       items={alternatives}
                       matrix={alternativesMatrices[idx] || []}
                       onChange={(r, c, v) => updateAlternativeMatrix(idx, r, c, v)}
@@ -161,7 +182,7 @@ function BuilderContent() {
             </div>
           </TabsContent>
 
-          <TabsContent value="results" className="animate-in fade-in duration-500">
+          <TabsContent value="results" className="animate-in fade-in duration-500 outline-none">
             <div className="grid lg:grid-cols-2 gap-8">
               <ResultsCharts 
                 title="Final Recommendation" 
@@ -179,13 +200,13 @@ function BuilderContent() {
                 <div className="bg-white p-6 rounded-xl border shadow-sm">
                   <h3 className="font-headline font-bold text-lg mb-4 text-primary">Analysis Summary</h3>
                   <div className="space-y-4 text-sm">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center p-3 bg-secondary/10 rounded-lg">
                       <span className="text-muted-foreground">Dominant Criterion</span>
-                      <span className="font-bold text-accent">
+                      <span className="font-bold text-primary">
                         {criteria.length > 0 ? criteria[criteriaResult.weights.indexOf(Math.max(...criteriaResult.weights))] : 'N/A'}
                       </span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center p-3 bg-accent/5 rounded-lg border border-accent/10">
                       <span className="text-muted-foreground">Best Alternative</span>
                       <span className="font-bold text-accent">
                         {alternatives.length > 0 ? alternatives[finalScores.indexOf(Math.max(...finalScores))] : 'N/A'}
@@ -204,8 +225,7 @@ function BuilderContent() {
           width: 8px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #F5F3F8;
-          border-radius: 10px;
+          background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
           background: #72518133;
