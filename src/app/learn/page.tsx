@@ -6,7 +6,7 @@ import { ArrowLeft, BookOpen, Calculator, LineChart, ShieldCheck } from 'lucide-
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export default function LearnPage() {
-  const images = PlaceHolderImages;
+  const hierarchyImage = PlaceHolderImages.find(img => img.id === 'ahp-hierarchy');
   
   return (
     <div className="min-h-screen bg-background">
@@ -26,14 +26,16 @@ export default function LearnPage() {
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               Developed by Dr. Thomas Saaty in the 1970s, the Analytic Hierarchy Process (AHP) is a structured technique for organizing and analyzing complex decisions, based on mathematics and psychology.
             </p>
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl mb-8">
-              <Image 
-                src={images[0]?.imageUrl || "https://picsum.photos/seed/ahp1/800/600"} 
-                alt="AHP Hierarchy Diagram"
-                fill
-                className="object-cover"
-                data-ai-hint="decision hierarchy"
-              />
+            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl mb-8 bg-muted">
+              {hierarchyImage && (
+                <Image 
+                  src={hierarchyImage.imageUrl} 
+                  alt={hierarchyImage.description}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={hierarchyImage.imageHint}
+                />
+              )}
             </div>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Instead of prescribing a "correct" decision, AHP helps decision-makers find one that best suits their goal and their understanding of the problem. It provides a comprehensive and rational framework for structuring a decision problem, for representing and quantifying its elements, for relating those elements to overall goals, and for evaluating alternative solutions.

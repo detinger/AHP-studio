@@ -1,16 +1,17 @@
+
 {
   "placeholderImages": [
     {
       "id": "ahp-hierarchy",
-      "description": "Visual diagram of an AHP hierarchy showing goal, criteria, and alternatives",
-      "imageUrl": "https://picsum.photos/seed/ahp1/800/600",
-      "imageHint": "decision hierarchy"
+      "description": "A classic AHP hierarchy chart showing the Goal at the top level, Criteria in the middle, and Alternatives at the bottom, all connected by lines.",
+      "imageUrl": "https://picsum.photos/seed/classic-ahp/800/600",
+      "imageHint": "AHP hierarchy"
     },
     {
       "id": "ahp-comparison",
-      "description": "Abstract representation of pairwise comparison between two nodes",
-      "imageUrl": "https://picsum.photos/seed/ahp2/800/600",
-      "imageHint": "comparison balance"
+      "description": "Abstract representation of pairwise comparison between two decision nodes on a balance scale.",
+      "imageUrl": "https://picsum.photos/seed/ahp-comparison/800/600",
+      "imageHint": "decision balance"
     }
   ]
 }
