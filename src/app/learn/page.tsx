@@ -26,13 +26,14 @@ export default function LearnPage() {
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               Developed by Dr. Thomas Saaty in the 1970s, the Analytic Hierarchy Process (AHP) is a structured technique for organizing and analyzing complex decisions, based on mathematics and psychology.
             </p>
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl mb-8 bg-muted">
+            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl mb-8 bg-white border flex items-center justify-center p-4">
               {hierarchyImage && (
                 <Image 
                   src={hierarchyImage.imageUrl} 
                   alt={hierarchyImage.description}
-                  fill
-                  className="object-cover"
+                  width={800}
+                  height={600}
+                  className="object-contain max-h-full"
                   data-ai-hint={hierarchyImage.imageHint}
                 />
               )}

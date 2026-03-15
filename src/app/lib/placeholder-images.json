@@ -3,9 +3,9 @@
   "placeholderImages": [
     {
       "id": "ahp-hierarchy",
-      "description": "A classic AHP hierarchy chart showing the Goal at the top level, Criteria in the middle, and Alternatives at the bottom, all connected by lines.",
-      "imageUrl": "https://picsum.photos/seed/classic-ahp/800/600",
-      "imageHint": "AHP hierarchy"
+      "description": "Classic AHP hierarchy diagram with a single Goal box at the top, five Criteria boxes in the middle, and three Alternative boxes at the bottom, connected by bright green lines.",
+      "imageUrl": "https://picsum.photos/seed/ahp-diagram-classic/800/600",
+      "imageHint": "AHP diagram"
     },
     {
       "id": "ahp-comparison",
