@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Calculator, LineChart, ShieldCheck, ArrowRight, BrainCircuit } from 'lucide-react';
@@ -5,11 +6,11 @@ import { AHP_TEMPLATES } from '@/lib/templates';
 import { HierarchyDiagram } from '@/components/ahp/HierarchyDiagram';
 
 export default function Home() {
-  // Generic data for the abstract landing page diagram
-  const abstractCriteria = ['Criterion', 'Criterion', 'Criterion', 'Criterion', 'Criterion'];
+  // Abstract labels for the landing page diagram
+  const abstractCriteria = ['Criterion 1', 'Criterion 2', 'Criterion 3', 'Criterion 4', 'Criterion 5'];
   const abstractWeights = [0.2, 0.2, 0.2, 0.2, 0.2];
-  const abstractAlternatives = ['Alternative', 'Alternative', 'Alternative'];
-  const abstractScores = [0.4, 0.3, 0.3];
+  const abstractAlternatives = ['Alternative A', 'Alternative B', 'Alternative C'];
+  const abstractScores = [0.33, 0.33, 0.34];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -50,23 +51,26 @@ export default function Home() {
 
         {/* Fundamentals Section */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="text-center mb-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16 max-w-5xl mx-auto">
               <h2 className="text-4xl font-headline font-bold mb-4 text-primary">What is AHP?</h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 Developed by Dr. Thomas Saaty, the Analytic Hierarchy Process is a structured technique for organizing and analyzing complex decisions based on mathematics and psychology.
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-              <div className="w-full">
-                <HierarchyDiagram 
-                  criteria={abstractCriteria}
-                  criteriaWeights={abstractWeights}
-                  alternatives={abstractAlternatives}
-                  finalScores={abstractScores}
-                />
-              </div>
+            {/* Full Width Hierarchy Diagram */}
+            <div className="w-full mb-20">
+              <HierarchyDiagram 
+                criteria={abstractCriteria}
+                criteriaWeights={abstractWeights}
+                alternatives={abstractAlternatives}
+                finalScores={abstractScores}
+                showWeights={false}
+              />
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-12 items-center mb-20 max-w-5xl mx-auto">
               <div className="space-y-6">
                 <h3 className="text-2xl font-headline font-bold text-primary">The Power of Structured Thinking</h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -83,23 +87,22 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="grid md:grid-cols-4 gap-8 mb-20">
-              {[
-                { icon: BookOpen, title: "1. Hierarchy", color: "text-primary", bg: "bg-primary/10", desc: "Decompose problems into goal, criteria, and alternatives." },
-                { icon: Calculator, title: "2. Comparison", color: "text-accent", bg: "bg-accent/10", desc: "Compare elements two-at-a-time using a 1-9 scale." },
-                { icon: LineChart, title: "3. Consistency", color: "text-primary", bg: "bg-primary/10", desc: "Measure judgment logic with the Consistency Ratio." },
-                { icon: ShieldCheck, title: "4. Synthesis", color: "text-accent", bg: "bg-accent/10", desc: "Combine priorities into a final ranked recommendation." }
-              ].map((step, i) => (
-                <div key={i} className="text-center group">
-                  <div className={`w-14 h-14 ${step.bg} ${step.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
-                    <step.icon className="w-7 h-7" />
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { icon: BookOpen, title: "1. Hierarchy", color: "text-primary", bg: "bg-primary/10", desc: "Decompose problems into goal, criteria, and alternatives." },
+                  { icon: Calculator, title: "2. Comparison", color: "text-accent", bg: "bg-accent/10", desc: "Compare elements two-at-a-time using a 1-9 scale." },
+                  { icon: LineChart, title: "3. Consistency", color: "text-primary", bg: "bg-primary/10", desc: "Measure judgment logic with the Consistency Ratio." },
+                  { icon: ShieldCheck, title: "4. Synthesis", color: "text-accent", bg: "bg-accent/10", desc: "Combine priorities into a final ranked recommendation." }
+                ].map((step, i) => (
+                  <div key={i} className="p-6 bg-white border rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                    <div className={`w-10 h-10 ${step.bg} ${step.color} rounded-lg flex items-center justify-center mb-4`}>
+                      <step.icon className="w-5 h-5" />
+                    </div>
+                    <h4 className="font-bold mb-1 text-sm">{step.title}</h4>
+                    <p className="text-[11px] text-muted-foreground leading-tight">{step.desc}</p>
                   </div>
-                  <h4 className="font-bold mb-2">{step.title}</h4>
-                  <p className="text-sm text-muted-foreground">{step.desc}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="bg-secondary/30 p-8 rounded-2xl border border-secondary max-w-3xl mx-auto">

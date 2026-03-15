@@ -8,6 +8,7 @@ interface HierarchyDiagramProps {
   criteriaWeights: number[];
   alternatives: string[];
   finalScores: number[];
+  showWeights?: boolean;
 }
 
 interface Point {
@@ -15,7 +16,13 @@ interface Point {
   y: number;
 }
 
-export function HierarchyDiagram({ criteria, criteriaWeights, alternatives, finalScores }: HierarchyDiagramProps) {
+export function HierarchyDiagram({ 
+  criteria, 
+  criteriaWeights, 
+  alternatives, 
+  finalScores,
+  showWeights = true 
+}: HierarchyDiagramProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const goalRef = useRef<HTMLDivElement>(null);
   const criteriaRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -66,7 +73,6 @@ export function HierarchyDiagram({ criteria, criteriaWeights, alternatives, fina
 
     updateLines();
     window.addEventListener('resize', updateLines);
-    // Observe the container for size changes (e.g. when tabs switch)
     const observer = new ResizeObserver(updateLines);
     if (containerRef.current) observer.observe(containerRef.current);
 
@@ -160,9 +166,11 @@ export function HierarchyDiagram({ criteria, criteriaWeights, alternatives, fina
               >
                 <div className="text-[9px] font-bold text-primary uppercase tracking-tighter mb-1">Criterion</div>
                 <div className="font-bold text-sm truncate">{c}</div>
-                <div className="inline-block mt-2 px-2 py-0.5 bg-primary/10 rounded text-[10px] font-bold text-primary">
-                  {(criteriaWeights[i] * 100).toFixed(1)}%
-                </div>
+                {showWeights && (
+                  <div className="inline-block mt-2 px-2 py-0.5 bg-primary/10 rounded text-[10px] font-bold text-primary">
+                    {(criteriaWeights[i] * 100).toFixed(1)}%
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -177,20 +185,22 @@ export function HierarchyDiagram({ criteria, criteriaWeights, alternatives, fina
                 <div 
                   ref={el => { alternativesRefs.current[i] = el; }}
                   className={`
-                    ${isWinner ? 'bg-accent text-white shadow-accent/20 border-accent' : 'bg-white text-foreground border-slate-200'} 
+                    ${(isWinner && showWeights) ? 'bg-accent text-white shadow-accent/20 border-accent' : 'bg-white text-foreground border-slate-200'} 
                     px-4 py-3 rounded-lg shadow-md text-center w-full max-w-[160px] border-2 transition-all
                   `}
                 >
-                  <div className={`text-[9px] font-bold uppercase tracking-tighter mb-1 ${isWinner ? 'opacity-80' : 'text-muted-foreground'}`}>
+                  <div className={`text-[9px] font-bold uppercase tracking-tighter mb-1 ${(isWinner && showWeights) ? 'opacity-80' : 'text-muted-foreground'}`}>
                     Alternative
                   </div>
                   <div className="font-bold text-sm truncate">{a}</div>
-                  <div className={`
-                    inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-bold
-                    ${isWinner ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}
-                  `}>
-                    {(finalScores[i] * 100).toFixed(1)}%
-                  </div>
+                  {showWeights && (
+                    <div className={`
+                      inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-bold
+                      ${isWinner ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'}
+                    `}>
+                      {(finalScores[i] * 100).toFixed(1)}%
+                    </div>
+                  )}
                 </div>
               </div>
             );
