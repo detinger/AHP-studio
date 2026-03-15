@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { BookOpen, Calculator, LineChart, ShieldCheck, ArrowRight, BrainCircuit } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { AHP_TEMPLATES } from '@/lib/templates';
@@ -40,7 +39,7 @@ export default function Home() {
             </p>
             <div className="flex justify-center">
               <Button size="lg" className="bg-accent hover:bg-accent/90 px-8" asChild>
-                <Link href="/builder">Get Started <ArrowRight className="ml-2 w-4 h-4" /></Link>
+                <Link href="/builder">Launch Workspace <ArrowRight className="ml-2 w-4 h-4" /></Link>
               </Button>
             </div>
           </div>
