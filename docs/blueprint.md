@@ -1,4 +1,4 @@
-# **App Name**: Decision Crafter
+# **App Name**: AHP Studio
 
 ## Core Features:
 
