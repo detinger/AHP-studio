@@ -32,10 +32,10 @@ export default function Home() {
         <section className="py-20 bg-gradient-to-b from-background to-secondary/30">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-5xl md:text-7xl font-headline font-bold mb-6 text-primary max-w-4xl mx-auto leading-tight">
-              Master the Science of Complex Decisions
+              AHP Studio
             </h1>
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto font-body">
-              A professional interactive studio for the Analytic Hierarchy Process (AHP). Build models, compare criteria, and derive consistent priorities.
+              An interactive studio for the Analytic Hierarchy Process (AHP). Build models, compare criteria, and derive consistent priorities.
             </p>
             <div className="flex justify-center">
               <Button size="lg" className="bg-accent hover:bg-accent/90 px-8" asChild>
@@ -45,7 +45,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Fundamentals Section */}
+        {/* Fundamentals Section (Integrated from former Learn page) */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-16">
@@ -149,7 +149,7 @@ export default function Home() {
             <span className="font-headline font-bold text-primary">AHP Studio</span>
           </div>
           <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} AHP Studio. Master the Science of Decisions.
+            © {new Date().getFullYear()} AHP Studio.
           </div>
         </div>
       </footer>
