@@ -10,7 +10,7 @@ import { PairwiseMatrix } from '@/components/ahp/PairwiseMatrix';
 import { ResultsCharts } from '@/components/ahp/ResultsCharts';
 import { calculateAHPWeights, synthesizeResults } from '@/lib/ahp-engine';
 import { AHP_TEMPLATES } from '@/lib/templates';
-import { ArrowLeft, Save, Play, ChevronRight, LayoutDashboard, Settings2, BarChart2 } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Settings2, BarChart2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function BuilderPage() {
@@ -88,10 +88,6 @@ export default function BuilderPage() {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="hidden sm:flex" onClick={() => toast({title: "Coming Soon", description: "Export features are currently in development."})}>
-              <Save className="w-4 h-4 mr-2" /> Save Draft
-            </Button>
-            <div className="h-8 w-px bg-border mx-2 hidden sm:block" />
             <select 
               className="text-sm border rounded-md px-2 py-1 bg-white outline-none focus:ring-2 focus:ring-accent"
               onChange={(e) => loadTemplate(e.target.value)}
