@@ -1,12 +1,15 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Calculator, LineChart, ShieldCheck, ArrowRight, BrainCircuit } from 'lucide-react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { AHP_TEMPLATES } from '@/lib/templates';
+import { HierarchyDiagram } from '@/components/ahp/HierarchyDiagram';
 
 export default function Home() {
-  const hierarchyImage = PlaceHolderImages.find(img => img.id === 'ahp-hierarchy');
+  // Generic data for the abstract landing page diagram
+  const abstractCriteria = ['Criterion', 'Criterion', 'Criterion', 'Criterion', 'Criterion'];
+  const abstractWeights = [0.2, 0.2, 0.2, 0.2, 0.2];
+  const abstractAlternatives = ['Alternative', 'Alternative', 'Alternative'];
+  const abstractScores = [0.4, 0.3, 0.3];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -56,17 +59,13 @@ export default function Home() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-white border flex items-center justify-center p-4">
-                {hierarchyImage && (
-                  <Image 
-                    src={hierarchyImage.imageUrl} 
-                    alt={hierarchyImage.description}
-                    width={800}
-                    height={600}
-                    className="object-contain max-h-full"
-                    data-ai-hint={hierarchyImage.imageHint}
-                  />
-                )}
+              <div className="w-full">
+                <HierarchyDiagram 
+                  criteria={abstractCriteria}
+                  criteriaWeights={abstractWeights}
+                  alternatives={abstractAlternatives}
+                  finalScores={abstractScores}
+                />
               </div>
               <div className="space-y-6">
                 <h3 className="text-2xl font-headline font-bold text-primary">The Power of Structured Thinking</h3>
