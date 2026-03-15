@@ -1,8 +1,8 @@
-
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HierarchyInputs } from '@/components/ahp/HierarchyInputs';
@@ -13,8 +13,11 @@ import { AHP_TEMPLATES } from '@/lib/templates';
 import { ArrowLeft, ChevronRight, Settings2, BarChart2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-export default function BuilderPage() {
+function BuilderContent() {
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const templateId = searchParams.get('template');
+  
   const [criteria, setCriteria] = useState<string[]>(['Cost', 'Quality', 'Performance']);
   const [alternatives, setAlternatives] = useState<string[]>(['Option A', 'Option B']);
   
@@ -40,6 +43,25 @@ export default function BuilderPage() {
     setAlternativesMatrices(newAltMatrices);
   }, [criteria.length, alternatives.length]);
 
+  const loadTemplate = (id: string) => {
+    const template = AHP_TEMPLATES.find(t => t.id === id);
+    if (template) {
+      setCriteria(template.criteria);
+      setAlternatives(template.alternatives);
+      toast({
+        title: "Template Loaded",
+        description: `Loaded ${template.name} configuration.`,
+      });
+    }
+  };
+
+  // Handle template from URL on mount
+  useEffect(() => {
+    if (templateId) {
+      loadTemplate(templateId);
+    }
+  }, [templateId]);
+
   const updateCriteriaMatrix = (row: number, col: number, val: number) => {
     const next = [...criteriaMatrix.map(r => [...r])];
     next[row][col] = val;
@@ -53,18 +75,6 @@ export default function BuilderPage() {
     nextM[row][col] = val;
     nextM[col][row] = 1 / val;
     setAlternativesMatrices(nextAll);
-  };
-
-  const loadTemplate = (id: string) => {
-    const template = AHP_TEMPLATES.find(t => t.id === id);
-    if (template) {
-      setCriteria(template.criteria);
-      setAlternatives(template.alternatives);
-      toast({
-        title: "Template Loaded",
-        description: `Loaded ${template.name} configuration.`,
-      });
-    }
   };
 
   // Calculations
@@ -91,7 +101,7 @@ export default function BuilderPage() {
             <select 
               className="text-sm border rounded-md px-2 py-1 bg-white outline-none focus:ring-2 focus:ring-accent"
               onChange={(e) => loadTemplate(e.target.value)}
-              defaultValue=""
+              defaultValue={templateId || ""}
             >
               <option value="" disabled>Load a Template...</option>
               {AHP_TEMPLATES.map(t => (
@@ -171,11 +181,15 @@ export default function BuilderPage() {
                   <div className="space-y-4 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Dominant Criterion</span>
-                      <span className="font-bold text-accent">{criteria[criteriaResult.weights.indexOf(Math.max(...criteriaResult.weights))]}</span>
+                      <span className="font-bold text-accent">
+                        {criteria.length > 0 ? criteria[criteriaResult.weights.indexOf(Math.max(...criteriaResult.weights))] : 'N/A'}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Best Alternative</span>
-                      <span className="font-bold text-accent">{alternatives[finalScores.indexOf(Math.max(...finalScores))]}</span>
+                      <span className="font-bold text-accent">
+                        {alternatives.length > 0 ? alternatives[finalScores.indexOf(Math.max(...finalScores))] : 'N/A'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -202,5 +216,13 @@ export default function BuilderPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function BuilderPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Workspace...</div>}>
+      <BuilderContent />
+    </Suspense>
   );
 }

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { BookOpen, Calculator, LineChart, ShieldCheck, ArrowRight, BrainCircuit } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { AHP_TEMPLATES } from '@/lib/templates';
 
 export default function Home() {
   const hierarchyImage = PlaceHolderImages.find(img => img.id === 'ahp-hierarchy');
@@ -45,7 +46,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Fundamentals Section (Integrated from former Learn page) */}
+        {/* Fundamentals Section */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-16">
@@ -131,11 +132,15 @@ export default function Home() {
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-headline font-bold mb-12">Jumpstart Your Analysis</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {['Cloud Provider Selection', 'University Choice', 'Smartphone Purchase'].map((template) => (
-                <div key={template} className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-xl hover:bg-white/20 transition-all text-left cursor-pointer group">
-                  <h3 className="text-lg font-bold mb-2 group-hover:text-accent transition-colors">{template}</h3>
-                  <p className="text-sm text-white/70">Pre-built models for exploring AHP mechanics.</p>
-                </div>
+              {AHP_TEMPLATES.map((template) => (
+                <Link 
+                  key={template.id} 
+                  href={`/builder?template=${template.id}`}
+                  className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-xl hover:bg-white/20 transition-all text-left group block"
+                >
+                  <h3 className="text-lg font-bold mb-2 group-hover:text-accent transition-colors">{template.name}</h3>
+                  <p className="text-sm text-white/70">{template.description}</p>
+                </Link>
               ))}
             </div>
           </div>
