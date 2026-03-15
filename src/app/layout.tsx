@@ -1,9 +1,8 @@
-
 import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Decision Crafter | AHP Decision Studio',
+  title: 'AHP Studio | Advanced Decision Support',
   description: 'Design and analyze complex decisions using the Analytic Hierarchy Process',
 };
 

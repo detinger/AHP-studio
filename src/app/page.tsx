@@ -1,8 +1,7 @@
-
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { BookOpen, GitGraph, BarChart3, ArrowRight, BrainCircuit, CheckCircle2 } from 'lucide-react';
+import { BookOpen, GitGraph, BarChart3, ArrowRight, BrainCircuit } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -14,7 +13,7 @@ export default function Home() {
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <BrainCircuit className="text-white w-6 h-6" />
             </div>
-            <span className="text-xl font-headline font-bold text-primary">Decision Crafter</span>
+            <span className="text-xl font-headline font-bold text-primary">AHP Studio</span>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <Link href="/learn" className="hover:text-accent transition-colors">Fundamentals</Link>
@@ -113,10 +112,10 @@ export default function Home() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <BrainCircuit className="text-primary w-5 h-5" />
-            <span className="font-headline font-bold text-primary">Decision Crafter</span>
+            <span className="font-headline font-bold text-primary">AHP Studio</span>
           </div>
           <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Decision Crafter. Designed for academic and professional excellence.
+            © {new Date().getFullYear()} AHP Studio. Designed for academic and professional excellence.
           </div>
         </div>
       </footer>
