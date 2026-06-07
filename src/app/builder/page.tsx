@@ -90,7 +90,9 @@ function BuilderContent() {
   const criteriaResult = calculateAHPWeights(criteriaMatrix);
   const altsResults = alternativesMatrices.map(m => calculateAHPWeights(m));
   
-  const hasValidResults = criteriaResult.weights.length === criteria.length && 
+  const hasValidResults = criteria.length > 0 &&
+                          alternatives.length > 0 &&
+                          criteriaResult.weights.length === criteria.length &&
                           altsResults.length === criteria.length &&
                           altsResults.every(r => r.weights.length === alternatives.length);
 

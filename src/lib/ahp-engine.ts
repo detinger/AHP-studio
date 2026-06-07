@@ -72,7 +72,11 @@ export function synthesizeResults(
   alternativesWeights: number[][] // criteria index -> alternative weights
 ): number[] {
   const nCriteria = criteriaWeights.length;
+  if (nCriteria === 0 || alternativesWeights.length !== nCriteria) return [];
+
   const nAlternatives = alternativesWeights[0].length;
+  if (alternativesWeights.some((weights) => weights.length !== nAlternatives)) return [];
+
   const finalScores = new Array(nAlternatives).fill(0);
 
   for (let i = 0; i < nAlternatives; i++) {
