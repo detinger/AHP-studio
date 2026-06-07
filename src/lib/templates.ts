@@ -34,49 +34,118 @@ export const AHP_TEMPLATES: AHPTemplate[] = [
     ]
   },
   {
-    id: 'university-selection',
-    name: 'University Choice',
-    description: 'Decide which university to attend based on reputation, location, and tuition fees.',
-    criteria: ['Reputation', 'Tuition', 'Location', 'Campus Life'],
-    alternatives: ['State University', 'Private Ivy', 'Tech Institute'],
+    id: 'erp-system-selection',
+    name: 'ERP System Selection',
+    description: 'Compare enterprise resource planning platforms based on integration, cost, scalability, and implementation risk.',
+    criteria: ['Integration', 'Total Cost', 'Scalability', 'Implementation Risk'],
+    alternatives: ['SAP S/4HANA', 'Dynamics 365', 'Oracle NetSuite'],
     criteriaMatrix: [
-      [1, 3, 5, 7],
-      [0.33, 1, 2, 4],
-      [0.2, 0.5, 1, 2],
-      [0.14, 0.25, 0.5, 1]
+      [1, 2, 4, 8],
+      [1 / 2, 1, 2, 4],
+      [1 / 4, 1 / 2, 1, 2],
+      [1 / 8, 1 / 4, 1 / 2, 1]
     ],
     alternativesMatrices: [
-      // Reputation
-      [[1, 0.2, 0.5], [5, 1, 3], [2, 0.33, 1]],
-      // Tuition
-      [[1, 5, 3], [0.2, 1, 0.5], [0.33, 2, 1]],
-      // Location
-      [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
-      // Campus Life
-      [[1, 0.5, 1], [2, 1, 2], [1, 0.5, 1]]
+      // Integration
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]],
+      // Total Cost
+      [[1, 1 / 2, 1 / 4], [2, 1, 1 / 2], [4, 2, 1]],
+      // Scalability
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]],
+      // Implementation Risk
+      [[1, 1 / 2, 1 / 4], [2, 1, 1 / 2], [4, 2, 1]]
     ]
   },
   {
-    id: 'smartphone-choice',
-    name: 'Smartphone Purchase',
-    description: 'Analyze different smartphone models based on camera quality, battery life, and brand value.',
-    criteria: ['OS Ecosystem', 'Camera', 'Battery', 'Design'],
-    alternatives: ['iPhone 15', 'Galaxy S24', 'Pixel 8'],
+    id: 'bi-platform-selection',
+    name: 'Business Intelligence Platform',
+    description: 'Evaluate analytics platforms for usability, data connectivity, governance, and total cost.',
+    criteria: ['Data Connectivity', 'Ease of Use', 'Governance', 'Total Cost'],
+    alternatives: ['Power BI', 'Tableau', 'Looker'],
     criteriaMatrix: [
-      [1, 2, 4, 6],
-      [0.5, 1, 2, 4],
-      [0.25, 0.5, 1, 2],
-      [0.17, 0.25, 0.5, 1]
+      [1, 2, 4, 8],
+      [1 / 2, 1, 2, 4],
+      [1 / 4, 1 / 2, 1, 2],
+      [1 / 8, 1 / 4, 1 / 2, 1]
     ],
     alternativesMatrices: [
-      // OS Ecosystem
-      [[1, 3, 5], [0.33, 1, 2], [0.2, 0.5, 1]],
-      // Camera
-      [[1, 1, 0.5], [1, 1, 0.5], [2, 2, 1]],
-      // Battery
-      [[1, 0.5, 1], [2, 1, 2], [1, 0.5, 1]],
-      // Design
-      [[1, 2, 2], [0.5, 1, 1], [0.5, 1, 1]]
+      // Data Connectivity
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]],
+      // Ease of Use
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]],
+      // Governance
+      [[1, 1 / 2, 1 / 4], [2, 1, 1 / 2], [4, 2, 1]],
+      // Total Cost
+      [[1, 4, 2], [1 / 4, 1, 1 / 2], [1 / 2, 2, 1]]
+    ]
+  },
+  {
+    id: 'ai-development-platform',
+    name: 'Strategic AI Platform Adoption',
+    description: 'Choose an AI development platform based on capability, enterprise integration, governance, and total cost.',
+    criteria: ['Technical Capability', 'Enterprise Integration', 'Governance & Security', 'Total Cost'],
+    alternatives: ['Google Gemini', 'Anthropic Claude', 'OpenAI Codex'],
+    criteriaMatrix: [
+      [1, 2, 4, 8],
+      [1 / 2, 1, 2, 4],
+      [1 / 4, 1 / 2, 1, 2],
+      [1 / 8, 1 / 4, 1 / 2, 1]
+    ],
+    alternativesMatrices: [
+      // Technical Capability
+      [[1, 1 / 2, 1 / 4], [2, 1, 1 / 2], [4, 2, 1]],
+      // Enterprise Integration
+      [[1, 4, 2], [1 / 4, 1, 1 / 2], [1 / 2, 2, 1]],
+      // Governance & Security
+      [[1, 1 / 2, 1], [2, 1, 2], [1, 1 / 2, 1]],
+      // Total Cost
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]]
+    ]
+  },
+  {
+    id: 'software-architecture-selection',
+    name: 'Software Architecture Selection',
+    description: 'Select an application architecture based on scalability, delivery speed, operability, and team capability.',
+    criteria: ['Scalability', 'Delivery Speed', 'Operability', 'Team Capability'],
+    alternatives: ['Modular Monolith', 'Microservices', 'Serverless'],
+    criteriaMatrix: [
+      [1, 2, 4, 8],
+      [1 / 2, 1, 2, 4],
+      [1 / 4, 1 / 2, 1, 2],
+      [1 / 8, 1 / 4, 1 / 2, 1]
+    ],
+    alternativesMatrices: [
+      // Scalability
+      [[1, 1 / 4, 1 / 2], [4, 1, 2], [2, 1 / 2, 1]],
+      // Delivery Speed
+      [[1, 4, 2], [1 / 4, 1, 1 / 2], [1 / 2, 2, 1]],
+      // Operability
+      [[1, 4, 2], [1 / 4, 1, 1 / 2], [1 / 2, 2, 1]],
+      // Team Capability
+      [[1, 4, 2], [1 / 4, 1, 1 / 2], [1 / 2, 2, 1]]
+    ]
+  },
+  {
+    id: 'product-launch-strategy',
+    name: 'Product Launch Strategy',
+    description: 'Choose a launch approach for a new technology product based on learning, speed, risk, and market impact.',
+    criteria: ['Customer Learning', 'Time to Market', 'Execution Risk', 'Market Impact'],
+    alternatives: ['Private Beta', 'Phased Rollout', 'Full Launch'],
+    criteriaMatrix: [
+      [1, 2, 4, 8],
+      [1 / 2, 1, 2, 4],
+      [1 / 4, 1 / 2, 1, 2],
+      [1 / 8, 1 / 4, 1 / 2, 1]
+    ],
+    alternativesMatrices: [
+      // Customer Learning
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]],
+      // Time to Market
+      [[1, 1 / 2, 1 / 4], [2, 1, 1 / 2], [4, 2, 1]],
+      // Execution Risk
+      [[1, 2, 4], [1 / 2, 1, 2], [1 / 4, 1 / 2, 1]],
+      // Market Impact
+      [[1, 1 / 2, 1 / 4], [2, 1, 1 / 2], [4, 2, 1]]
     ]
   }
 ];

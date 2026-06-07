@@ -5,31 +5,31 @@
 
 @layer base {
   :root {
-    --background: 260 20% 97%; /* #F5F3F8 */
-    --foreground: 280 23% 15%;
-    --card: 0 0% 100%;
-    --card-foreground: 280 23% 15%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 280 23% 15%;
-    --primary: 280 23% 41%; /* #725181 - Deep Plum */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 260 20% 90%;
-    --secondary-foreground: 280 23% 20%;
-    --muted: 260 10% 94%;
-    --muted-foreground: 280 10% 45%;
-    --accent: 240 77% 60%; /* #4C4CE5 - Vibrant Blue */
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 260 10% 88%;
-    --input: 260 10% 88%;
-    --ring: 240 77% 60%;
-    --radius: 0.75rem;
-    --chart-1: 280 23% 41%;
-    --chart-2: 240 77% 60%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --background: 231 31% 11%;
+    --foreground: 225 30% 88%;
+    --card: 230 27% 15%;
+    --card-foreground: 225 30% 88%;
+    --popover: 230 27% 15%;
+    --popover-foreground: 225 30% 88%;
+    --primary: 249 88% 75%;
+    --primary-foreground: 231 31% 10%;
+    --secondary: 230 23% 20%;
+    --secondary-foreground: 225 30% 88%;
+    --muted: 230 22% 18%;
+    --muted-foreground: 225 17% 62%;
+    --accent: 188 86% 62%;
+    --accent-foreground: 231 31% 10%;
+    --destructive: 349 89% 72%;
+    --destructive-foreground: 231 31% 10%;
+    --border: 229 20% 25%;
+    --input: 229 20% 25%;
+    --ring: 249 88% 75%;
+    --radius: 0.9rem;
+    --chart-1: 249 88% 75%;
+    --chart-2: 188 86% 62%;
+    --chart-3: 217 92% 76%;
+    --chart-4: 41 94% 68%;
+    --chart-5: 349 89% 72%;
   }
 }
 
@@ -39,8 +39,16 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 15% 0%, hsl(var(--primary) / 0.09), transparent 32rem),
+      radial-gradient(circle at 85% 10%, hsl(var(--accent) / 0.06), transparent 28rem);
+    background-attachment: fixed;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
+  }
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+    color: hsl(var(--foreground));
   }
 }

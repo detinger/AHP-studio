@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Plus, X, BrainCircuit, ListTree } from 'lucide-react';
 
@@ -42,7 +41,7 @@ export function HierarchyInputs({ criteria, alternatives, onUpdate }: HierarchyI
 
   return (
     <div className="grid md:grid-cols-2 gap-8">
-      <Card className="border-none shadow-md bg-white">
+      <Card className="border bg-card/90 shadow-xl shadow-black/10">
         <CardHeader>
           <div className="flex items-center gap-2 mb-2">
             <ListTree className="text-primary w-5 h-5" />
@@ -74,7 +73,7 @@ export function HierarchyInputs({ criteria, alternatives, onUpdate }: HierarchyI
         </CardContent>
       </Card>
 
-      <Card className="border-none shadow-md bg-white">
+      <Card className="border bg-card/90 shadow-xl shadow-black/10">
         <CardHeader>
           <div className="flex items-center gap-2 mb-2">
             <BrainCircuit className="text-accent w-5 h-5" />

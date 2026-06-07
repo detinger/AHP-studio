@@ -10,7 +10,7 @@ export default function LearnPage() {
   
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-white p-4">
+      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 p-4 backdrop-blur-xl">
         <div className="container mx-auto flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
             <Link href="/"><ArrowLeft className="w-5 h-5" /></Link>
@@ -20,13 +20,13 @@ export default function LearnPage() {
       </header>
 
       <main className="container mx-auto px-4 py-12 max-w-4xl">
-        <article className="prose prose-slate max-w-none">
+        <article className="max-w-none">
           <section className="mb-16">
             <h2 className="text-4xl font-headline font-bold mb-6 text-primary">What is the Analytic Hierarchy Process?</h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               Developed by Dr. Thomas Saaty in the 1970s, the Analytic Hierarchy Process (AHP) is a structured technique for organizing and analyzing complex decisions, based on mathematics and psychology.
             </p>
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl mb-8 bg-white border flex items-center justify-center p-4">
+            <div className="relative mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-2xl border bg-card p-4 shadow-2xl shadow-black/20">
               {hierarchyImage && (
                 <Image 
                   src={hierarchyImage.imageUrl} 
@@ -86,7 +86,7 @@ export default function LearnPage() {
             </div>
           </section>
 
-          <section className="bg-secondary/30 p-8 rounded-2xl border border-secondary">
+          <section className="rounded-2xl border bg-card/80 p-8 shadow-xl shadow-black/10">
             <h3 className="text-2xl font-headline font-bold mb-4 text-primary">The Fundamental Scale</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -109,7 +109,7 @@ export default function LearnPage() {
           </section>
 
           <div className="mt-16 flex justify-center">
-            <Button size="lg" className="bg-accent" asChild>
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
               <Link href="/builder">Ready to try it? Go to Workspace</Link>
             </Button>
           </div>

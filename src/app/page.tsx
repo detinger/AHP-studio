@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Calculator, LineChart, ShieldCheck, ArrowRight, BrainCircuit, Zap, Target, Layers } from 'lucide-react';
+import { Calculator, LineChart, ShieldCheck, ArrowRight, BrainCircuit, Zap, Target, Layers } from 'lucide-react';
 import { AHP_TEMPLATES } from '@/lib/templates';
 import { HierarchyDiagram } from '@/components/ahp/HierarchyDiagram';
 
@@ -14,36 +14,23 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="border-b bg-white/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <BrainCircuit className="text-white w-6 h-6" />
-            </div>
-            <span className="text-xl font-headline font-bold text-primary">AHP Studio</span>
-          </div>
-          <nav className="flex items-center gap-4 text-sm font-medium">
-            <Button variant="default" size="sm" asChild className="bg-accent">
-              <Link href="/builder">Launch Workspace</Link>
-            </Button>
-          </nav>
-        </div>
-      </header>
-
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="py-24 bg-gradient-to-b from-background to-secondary/30 border-b">
+        <section className="relative overflow-hidden border-b border-border/70 py-24 md:py-32">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.25)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.25)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-6xl md:text-8xl font-headline font-bold mb-6 text-primary max-w-4xl mx-auto leading-tight">
+            <div className="relative mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-[2.25rem] bg-primary/15 ring-1 ring-primary/40 shadow-[0_0_76px_hsl(var(--primary)/0.24)] md:h-36 md:w-36">
+              <BrainCircuit className="h-16 w-16 text-primary md:h-[4.5rem] md:w-[4.5rem]" />
+            </div>
+            <h1 className="relative mx-auto mb-6 max-w-4xl text-6xl font-bold leading-tight tracking-tight text-foreground md:text-8xl">
               AHP Studio
             </h1>
-            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto font-body leading-relaxed">
+            <p className="relative mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
               Design and analyze complex decisions using the Analytic Hierarchy Process. 
               Decompose problems, quantify judgments, and reach logically consistent conclusions.
             </p>
-            <div className="flex justify-center gap-4">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 px-8" asChild>
+            <div className="relative flex justify-center">
+              <Button size="lg" className="bg-primary px-8 text-primary-foreground shadow-[0_0_30px_hsl(var(--primary)/0.2)] hover:bg-primary/90" asChild>
                 <Link href="/builder">Launch Workspace <ArrowRight className="ml-2 w-4 h-4" /></Link>
               </Button>
             </div>
@@ -51,7 +38,7 @@ export default function Home() {
         </section>
 
         {/* The Model Visualization */}
-        <section className="py-20 bg-white">
+        <section className="border-b border-border/60 bg-card/30 py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-headline font-bold text-primary mb-4">The AHP Structural Logic</h2>
@@ -72,7 +59,7 @@ export default function Home() {
         </section>
 
         {/* Deep Dive Content */}
-        <section className="py-20 bg-secondary/10">
+        <section className="border-b border-border/60 py-20">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-16 items-start max-w-6xl mx-auto">
               <div className="space-y-8">
@@ -122,7 +109,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="bg-white p-10 rounded-3xl shadow-xl border border-secondary">
+              <div className="rounded-3xl border border-border bg-card/80 p-6 shadow-2xl shadow-black/20 backdrop-blur sm:p-10">
                 <h3 className="text-2xl font-headline font-bold mb-6 text-primary">The Fundamental 1-9 Scale</h3>
                 <p className="text-muted-foreground mb-8 text-sm leading-relaxed">
                   The scale below is based on psychological research into the limits of human perception. It allows for nuanced, qualitative judgments to be converted into quantitative values.
@@ -174,7 +161,7 @@ export default function Home() {
         </section>
 
         {/* Mathematical Rigor Section */}
-        <section className="py-20 bg-white">
+        <section className="border-b border-border/60 bg-card/30 py-20">
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-headline font-bold text-primary mb-4">Consistency & Mathematical Rigor</h2>
@@ -182,7 +169,7 @@ export default function Home() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-8 bg-background rounded-2xl border hover:shadow-lg transition-all">
+              <div className="rounded-2xl border bg-card/80 p-8 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5">
                 <LineChart className="w-10 h-10 text-accent mb-6" />
                 <h4 className="text-xl font-bold mb-3">Consistency Ratio</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">
@@ -190,7 +177,7 @@ export default function Home() {
                 </p>
               </div>
               
-              <div className="p-8 bg-background rounded-2xl border hover:shadow-lg transition-all">
+              <div className="rounded-2xl border bg-card/80 p-8 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5">
                 <Zap className="w-10 h-10 text-primary mb-6" />
                 <h4 className="text-xl font-bold mb-3">Priority Synthesis</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">
@@ -198,7 +185,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="p-8 bg-background rounded-2xl border hover:shadow-lg transition-all">
+              <div className="rounded-2xl border bg-card/80 p-8 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5">
                 <ShieldCheck className="w-10 h-10 text-accent mb-6" />
                 <h4 className="text-xl font-bold mb-3">Validation</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">
@@ -210,19 +197,20 @@ export default function Home() {
         </section>
 
         {/* Template Section */}
-        <section className="py-24 bg-primary text-white">
+        <section className="relative overflow-hidden bg-secondary/60 py-24">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.14),transparent_60%)]" />
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-headline font-bold mb-4">Jumpstart Your Analysis</h2>
-            <p className="text-white/70 mb-12 max-w-2xl mx-auto">Select a validated template to see AHP in action with pre-populated, consistent priority data.</p>
+            <p className="mx-auto mb-12 max-w-4xl text-muted-foreground lg:whitespace-nowrap">Select a validated template to see AHP in action with pre-populated, consistent priority data.</p>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {AHP_TEMPLATES.map((template) => (
                 <Link 
                   key={template.id} 
                   href={`/builder?template=${template.id}`}
-                  className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all text-left group block shadow-xl"
+                  className="group block rounded-2xl border border-border bg-card/80 p-8 text-left shadow-xl shadow-black/10 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary/60 hover:bg-card"
                 >
                   <h3 className="text-xl font-bold mb-3 group-hover:text-accent transition-colors">{template.name}</h3>
-                  <p className="text-sm text-white/70 leading-relaxed mb-6">{template.description}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">{template.description}</p>
                   <div className="flex items-center text-xs font-bold text-accent uppercase tracking-wider">
                     Load Template <ArrowRight className="ml-2 w-3 h-3" />
                   </div>
@@ -233,11 +221,11 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-secondary/50 py-16 border-t">
+      <footer className="border-t border-border/70 bg-card/40 py-16">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg">
-              <BrainCircuit className="text-white w-7 h-7" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 ring-1 ring-primary/30">
+              <BrainCircuit className="h-7 w-7 text-primary" />
             </div>
             <div>
               <span className="font-headline font-bold text-primary text-xl block">AHP Studio</span>
@@ -252,4 +240,3 @@ export default function Home() {
     </div>
   );
 }
-

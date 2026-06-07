@@ -2,9 +2,22 @@
 "use client"
 
 import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Info } from 'lucide-react';
+
+const MIN_SLIDER_VALUE = -8;
+const MAX_SLIDER_VALUE = 8;
+
+const SCALE_DESCRIPTIONS: Record<number, string> = {
+  1: 'Equal importance',
+  2: 'Slight preference',
+  3: 'Moderate preference',
+  4: 'Moderate to strong preference',
+  5: 'Strong preference',
+  6: 'Strong to very strong preference',
+  7: 'Very strong preference',
+  8: 'Very strong to extreme preference',
+  9: 'Extreme preference',
+};
 
 interface PairwiseMatrixProps {
   title: string;
@@ -21,21 +34,26 @@ export function PairwiseMatrix({ title, items, matrix, onChange }: PairwiseMatri
     }
   }
 
-  const getSliderValue = (val: number) => {
-    if (val >= 1) return val;
-    return -(1 / val);
+  const getSliderValue = (matrixValue: number) => {
+    if (!Number.isFinite(matrixValue) || matrixValue <= 0 || matrixValue === 1) {
+      return 0;
+    }
+
+    const sliderValue = matrixValue > 1
+      ? -(Math.round(matrixValue) - 1)
+      : Math.round(1 / matrixValue) - 1;
+
+    return Math.max(MIN_SLIDER_VALUE, Math.min(MAX_SLIDER_VALUE, sliderValue));
   };
 
-  const handleSliderChange = (row: number, col: number, sliderVal: number) => {
-    let matrixVal: number;
-    if (sliderVal >= 1) {
-      matrixVal = sliderVal;
-    } else if (sliderVal === 0) {
-      matrixVal = 1; // Though slider starts at 1 usually
-    } else {
-      matrixVal = 1 / Math.abs(sliderVal);
+  const handleSliderChange = (row: number, col: number, sliderValue: number) => {
+    if (sliderValue === 0) {
+      onChange(row, col, 1);
+      return;
     }
-    onChange(row, col, matrixVal);
+
+    const intensity = Math.abs(sliderValue) + 1;
+    onChange(row, col, sliderValue < 0 ? intensity : 1 / intensity);
   };
 
   if (items.length < 2) {
@@ -49,47 +67,56 @@ export function PairwiseMatrix({ title, items, matrix, onChange }: PairwiseMatri
   }
 
   return (
-    <Card className="border-none shadow-lg bg-white overflow-hidden">
-      <CardHeader className="bg-primary/5">
-        <CardTitle className="font-headline text-xl">{title}</CardTitle>
+    <Card className="min-w-0 overflow-hidden border bg-card/90 shadow-xl shadow-black/10">
+      <CardHeader className="border-b border-border/70 bg-primary/5 px-4 sm:px-6">
+        <CardTitle className="break-words font-headline text-lg sm:text-xl">{title}</CardTitle>
         <CardDescription>Compare each pair to determine relative importance.</CardDescription>
       </CardHeader>
-      <CardContent className="pt-8 space-y-12">
+      <CardContent className="space-y-10 px-4 pt-6 sm:space-y-12 sm:px-6 sm:pt-8">
         {pairs.map(([i, j]) => {
-          const val = matrix[i][j];
-          const displayVal = getSliderValue(val);
+          const matrixValue = matrix[i]?.[j] ?? 1;
+          const sliderValue = getSliderValue(matrixValue);
+          const intensity = Math.abs(sliderValue) + 1;
+          const favoredItem = sliderValue < 0 ? items[i] : items[j];
           
           return (
             <div key={`${i}-${j}`} className="space-y-4">
-              <div className="flex justify-between items-center text-sm font-medium">
-                <div className={`flex-1 text-left ${displayVal > 1 ? 'text-accent font-bold scale-110 transition-all' : ''}`}>
+              <div className="grid grid-cols-2 items-center gap-2 text-sm font-medium sm:grid-cols-[minmax(0,1fr)_minmax(10rem,1.5fr)_minmax(0,1fr)]">
+                <div className={`min-w-0 break-words text-left ${sliderValue < 0 ? 'font-bold text-accent' : ''}`}>
                   {items[i]}
                 </div>
-                <div className="flex-1 text-center text-xs text-muted-foreground bg-secondary/50 py-1 px-3 rounded-full">
-                  {val >= 1 ? `${val.toFixed(0)}x Stronger` : `${(1/val).toFixed(0)}x Weaker`}
+                <div className="order-3 col-span-2 rounded-lg bg-secondary/50 px-3 py-1.5 text-center text-xs text-muted-foreground sm:order-none sm:col-span-1">
+                  {sliderValue === 0
+                    ? SCALE_DESCRIPTIONS[1]
+                    : `${favoredItem}: ${intensity} - ${SCALE_DESCRIPTIONS[intensity]}`}
                 </div>
-                <div className={`flex-1 text-right ${displayVal < -1 ? 'text-accent font-bold scale-110 transition-all' : ''}`}>
+                <div className={`min-w-0 break-words text-right ${sliderValue > 0 ? 'font-bold text-accent' : ''}`}>
                   {items[j]}
                 </div>
               </div>
-              <div className="px-2">
+              <div className="relative px-1 sm:px-2">
+                <div className="pointer-events-none absolute inset-y-0 left-1/2 z-10 w-px -translate-x-1/2 bg-primary/40" />
                 <Slider
-                  min={-9}
-                  max={9}
+                  min={MIN_SLIDER_VALUE}
+                  max={MAX_SLIDER_VALUE}
                   step={1}
-                  value={[displayVal === 0 ? 1 : displayVal]}
-                  onValueChange={(vals) => {
-                    let v = vals[0];
-                    if (v === 0) v = 1; // Snap to equal
-                    handleSliderChange(i, j, v);
-                  }}
-                  className="[&_[role=slider]]:bg-accent"
+                  value={[sliderValue]}
+                  onValueChange={([value]) => handleSliderChange(i, j, value)}
+                  aria-label={`Compare ${items[i]} with ${items[j]}`}
+                  className="[&>span:first-child>span]:hidden [&_[role=slider]]:bg-accent"
                 />
               </div>
-              <div className="flex justify-between text-[10px] text-muted-foreground px-1">
-                <span>Strongly Prefer Left</span>
-                <span>Equal</span>
-                <span>Strongly Prefer Right</span>
+              <div className="grid grid-cols-[repeat(17,minmax(0,1fr))] text-center text-[8px] text-muted-foreground sm:px-1 sm:text-[9px]">
+                {Array.from({ length: 17 }, (_, index) => index - 8).map((value) => (
+                  <span key={value} className={value === 0 ? 'font-bold text-primary' : ''}>
+                    {value === 0 ? 0 : Math.abs(value) + 1}
+                  </span>
+                ))}
+              </div>
+              <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-2 px-1 text-[9px] leading-tight text-muted-foreground sm:text-[10px]">
+                <div className="break-words">Extreme for {items[i]}</div>
+                <div className="text-center">0 = equal</div>
+                <div className="break-words text-right">Extreme for {items[j]}</div>
               </div>
             </div>
           );
